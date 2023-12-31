@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Port number to listen on
+PORT=54321
+
+# Start UDP server using netcat
+nc -u -l -p "$PORT"
