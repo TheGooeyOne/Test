@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Port number to listen on
+PORT=12345
+
+# Function to handle client connections
+handle_client() {
+    local client_name=$1
+    local client_address=$2
+    
+    while true; do
+        # Read message from the client
+        message=$(nc -l -p "$PORT" <<<"")
+
+        # Broadcast message to all connected clients
+        for client in "${clients[@]}"; do
+            echo "$client_name: $message" | nc "$client" "$PORT" &
+        done
+    done
+}
+
+# Array to store client addresses and usernames
+declare -A clients=()
+
+# Start a loop to accept incoming connections
+while true; do
+    # Accept incoming connection and get the client address
+    client_address=$(nc -l -p "$PORT" <<<"")
+
+    # Prompt the client for username
+    echo "Enter your username:"
+    read client_name
+
+    # Add client address and username to the clients array
+    clients["$client_address"]=$client_name
+
+    # Start handling the client in a separate process
+    handle_client "$client_name" "$client_address" &
+done
