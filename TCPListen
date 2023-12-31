@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Port number to listen on
+PORT=12345
+
+# Start TCP server using netcat
+nc -l -p "$PORT"
