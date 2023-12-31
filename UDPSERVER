@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Port number to listen on
+PORT=54321
+
+# Function to handle incoming messages from clients
+handle_messages() {
+    local sender_address=$1
+    local sender_name=$2
+    local message=$3
+
+    # Broadcast message to all connected clients except the sender
+    for client_address in "${!clients[@]}"; do
+        if [ "$client_address" != "$sender_address" ]; then
+            echo "$sender_name: $message" | nc -u -w 0 "$client_address" "$PORT" &
+        fi
+    done
+}
+
+# Array to store client addresses and usernames
+declare -A clients=()
+
+# Start a loop to listen for incoming messages
+while true; do
+    # Receive incoming message
+    received_message=$(nc -u -l -p "$PORT")
+
+    # Extract sender's address and message
+    sender_address=$(echo "$received_message" | cut -d' ' -f1)
+    message=$(echo "$received_message" | cut -d' ' -f2-)
+
+    # Check if the client is known or new
+    if [ -z "${clients[$sender_address]}" ]; then
+        # Prompt the client for username if new
+        echo "Enter your username:"
+        read sender_name
+
+        # Add client address and username to the clients array
+        clients["$sender_address"]=$sender_name
+
+        echo "Welcome, $sender_name!"
+    else
+        # Get the sender's username from the clients array
+        sender_name=${clients[$sender_address]}
+    fi
+
+    # Handle the received message
+    handle_messages "$sender_address" "$sender_name" "$message" &
+done
