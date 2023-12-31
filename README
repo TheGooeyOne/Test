@@ -1,0 +1,1 @@
+##Chmod +x both scripts, then nc localhost 12345 for tcp, and nc-u localhost 54321 for udp
