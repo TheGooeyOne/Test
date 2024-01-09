@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<link rel="stylesheet" href="styles.css">
+<h1 id="title">The Survery Form</h1>
+<p id="description">A quick demonstration of html coding prowess.</p>
+<body>
+<form id="survey-form">
+ <label id="name-label" >what is your name?<input id="name" type="text"  placeholder="what is your name?" required /></label>
+<label id="email-label" >What is your email?<input id="email" type="email" placeholder="what is your email?"  required /></label>
+<label id="number-label" >What is your age?<input id="number" type="number" placeholder="what is your age?"  min="18" max="120" required/></label>
+<label id="dropdown-label"><select id="dropdown">
+  <option>yes</option>
+  <option>no</option>
+  <option>maybe</option>
+  </select></label>
+  <label id="cats"><input type="radio" name="button" value="cats" />Cats</label>
+  <label id="dogs"><input type="radio" name="button" value="dogs" />Dogs</label>
+ <textarea placeholder="Comments?"></textarea>
+ <label>Cars<input value="cars" type="checkbox"></label>
+ <label>Planes<input value="planes" type="checkbox"></label>
+ <label>Boats<input value="boats" type="checkbox"></label>
+ <label>Trains<input value="trains" type="checkbox"></label>
+  <label><input id="submit" type="submit" required /></label>
+</form>
+</body>
